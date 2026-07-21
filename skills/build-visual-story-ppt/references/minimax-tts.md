@@ -62,7 +62,7 @@ Use one profile per semantic segment, not one arbitrary profile per sentence. Ke
 - Generate each semantic segment separately only when its profile differs from the adjacent segment. Concatenate the resulting WAV files in order and shift word timestamps by the actual preceding segment durations.
 - Keep a `segments` array in the page manifest with text, profile, speed, volume, and duration. Use the merged page audio and shifted words as the only source of final page timing and subtitles.
 
-Add pronunciation rules only for names that the selected voice mispronounces. Keep the approved visible spelling in the narration and subtitles. When a repeated English initial is collapsed despite the dictionary, send a speech-only tokenized form such as `C C Switch`, retain `CC Switch` for visible copy, and map the word timestamps back to the visible spelling before building subtitles or beat timing.
+Add pronunciation rules only for names that the selected voice mispronounces. Keep the approved visible spelling in the narration and subtitles. When a repeated English initial is collapsed despite the dictionary, send a speech-only tokenized form such as `C C Switch`, retain `CC Switch` for visible copy, and map the word timestamps back to the visible spelling before building subtitles or beat timing. For the standalone term `AI`, always send `A I` to MiniMax and retain `AI` for visible copy; do not use an inline phonetic dictionary rule for it.
 
 ## Page-by-page generation
 
