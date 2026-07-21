@@ -30,7 +30,7 @@ The command synthesizes one WAV and word-timestamp JSON per page, derives timed 
 - `episode-04-narrated-soft-subtitles.mp4`
 - `episode-04-narrated-burned-subtitles.mp4`
 
-Use the burned-subtitles version as the publishing default. `Chinese_playful_streamer_nv1` at `1.10` speed is the active voice configuration in `video/episode-04/generate_minimax_narration.mjs`.
+Use the burned-subtitles version as the publishing default. `Chinese_playful_streamer_nv1` at `1.10` speed is the active voice configuration in `video/episode-04/generate_minimax_narration.mjs`. Preserve the native pitch by omitting the `pitch` parameter; do not set speed below `1.00`.
 
 ## Revision rules
 
