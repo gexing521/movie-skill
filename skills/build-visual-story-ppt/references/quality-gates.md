@@ -5,6 +5,7 @@
 - Every requested slide exists exactly once and uses the intended image.
 - All images load and are nonblank.
 - Primary text is readable at the delivery aspect ratio. For Douyin, inspect 540x960 and stress-test 375x667.
+- Focal content is not reduced to thin bottom cards or tiny labels. At delivery size, meaningful stage text is at least 22 px, repeated modules are roughly 90 px high or larger, and the middle safe area is visibly occupied.
 - No title, caption, page number, or navigation control covers a key subject, logo, label, face, diagram node, table, or file object.
 - No text runs outside its container or wraps as a single orphan character.
 - All exact labels in generated images are spelled correctly.
@@ -20,6 +21,7 @@
 - Use generated examples and analogies, not generic AI robots or abstract circuitry.
 - Keep stable target-aspect framing and verify `object-position` per slide.
 - Keep titles in a dedicated platform-safe region. For Douyin, reserve the top 12% and bottom 18% and protect faces and workflow nodes.
+- Keep the title, supporting copy, and focal stage visually connected. Reject layouts with a large unused middle band between copy and the explanatory visual.
 - Avoid large white caption cards floating over artwork.
 - Keep page numbers and navigation secondary.
 - Use motion to explain entry and progression, not continuous decorative movement.

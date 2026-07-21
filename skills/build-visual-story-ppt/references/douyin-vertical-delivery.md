@@ -19,6 +19,9 @@ Use this reference for Douyin and this AI explainer series unless the user expli
 ## Safe Composition
 
 - Reserve the top 12% and bottom 18% for Douyin chrome and captions. Keep the focal title, face, and decisive diagram elements in the middle 70%.
+- Build a continuous vertical reading path instead of separating a small title at the top from small cards at the bottom. Place the focal information stage around 38%-70% of canvas height and keep the settled gap between supporting copy and that stage under roughly 10% of canvas height.
+- The focal stage must have visual mass: it should occupy at least about one third of the middle safe area. Do not leave the middle empty while attaching several thin cards or tiny labels near the caption rail.
+- At 1080x1920 delivery size, use at least 22 px for meaningful text inside the focal stage and roughly 90 px minimum height for repeated action or decision modules. Decorative metadata may be smaller, but must never carry the idea of the page. Merge small labels into a larger structured block when they cannot meet this scale.
 - Keep the title and portrait on separate visual lanes. Never let title typography cross eyes, glasses, a face, a key workflow node, or a pricing/approval boundary.
 - When the series has a recurring creator character, store one approved master asset under `images/` and place it in the lower-right lane at roughly 28%-35% of canvas width. Keep its head and body out of the title lane and its feet above the caption safe area. The recurring character is a recognisable secondary cue, never the cover's dominant subject.
 - Use short, deliberate title line breaks. Rewrite copy before shrinking it. Do not let a single Chinese character wrap alone.
