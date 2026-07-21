@@ -1,0 +1,16 @@
+{
+  "name": "episode-04-video-skill",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:tts": "node video/episode-04/generate_minimax_narration.mjs",
+    "capture": "node video/episode-04/capture_motion_frames.mjs",
+    "build": "node video/episode-04/build_minimax_video.mjs",
+    "validate:subtitles": "node tools/validate_srt.mjs video/episode-04/minimax/episode-04-minimax.srt",
+    "build:video": "npm run generate:tts && npm run capture && npm run build && npm run validate:subtitles"
+  },
+  "dependencies": {
+    "playwright": "1.61.1"
+  }
+}

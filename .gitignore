@@ -1,0 +1,4 @@
+node_modules/
+video/episode-04/minimax/
+video/episode-04/motion-recordings/
+.env
