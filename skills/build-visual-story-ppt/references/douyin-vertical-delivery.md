@@ -20,6 +20,7 @@ Use this reference for Douyin and this AI explainer series unless the user expli
 
 - Reserve the top 12% and bottom 18% for Douyin chrome and captions. Keep the focal title, face, and decisive diagram elements in the middle 70%.
 - Keep the title and portrait on separate visual lanes. Never let title typography cross eyes, glasses, a face, a key workflow node, or a pricing/approval boundary.
+- When the series has a recurring creator character, store one approved master asset under `images/` and place it in the lower-right lane at roughly 28%-35% of canvas width. Keep its head and body out of the title lane and its feet above the caption safe area. The recurring character is a recognisable secondary cue, never the cover's dominant subject.
 - Use short, deliberate title line breaks. Rewrite copy before shrinking it. Do not let a single Chinese character wrap alone.
 - Make the first slide title visually dominant. Keep explanatory copy, page number, and CTA secondary.
 
