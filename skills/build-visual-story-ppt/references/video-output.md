@@ -1,5 +1,7 @@
 # Narration-Timed Video Output
 
+Read `douyin-vertical-delivery.md` before producing a Douyin episode. Its 1080x1920 cover and safe-area requirements override the horizontal defaults below.
+
 ## Contents
 
 - Timing authority
@@ -30,7 +32,7 @@ Default to 200 Chinese characters per minute and a 1-2 second page pause. Count 
 
 ## Frame capture
 
-1. Set the browser viewport to 1920x1080.
+1. Set the browser viewport to the delivery resolution: 1920x1080 for horizontal work, 1080x1920 for Douyin.
 2. Reload the deck and wait for entrance motion to settle.
 3. Capture every page, including the bottom title rail.
 4. Restore the browser viewport afterward.
@@ -51,9 +53,9 @@ For a slide that contains several narrated visual beats, a settled screenshot pe
 
 Render a static page frame or a motion-recorded page clip into constant-frame-rate H.264 before applying `xfade`. This avoids FFmpeg time-base failures.
 
-Use:
+Use the selected delivery format:
 
-- 1920x1080;
+- 1920x1080 for horizontal work or 1080x1920 for Douyin;
 - 30 fps;
 - H.264 `yuv420p`;
 - AAC at 48 kHz, preserving mono or stereo narration as appropriate;
@@ -91,13 +93,13 @@ When narration is unavailable, use the `*-screen` names and include a silent AAC
 - Place burned captions above the deck title rail.
 - Use a readable Chinese font and a compact translucent dark background.
 
-Because libass may use a 384x288 subtitle coordinate space for SRT, test the actual rendered size at 1080p. A nominal ASS `FontSize=12` can appear near 42-46 pixels. Inspect a frame instead of trusting the numeric value.
+Because libass may use a 384x288 subtitle coordinate space for SRT, test the actual rendered size at the final delivery resolution. A nominal ASS `FontSize=12` can appear near 42-46 pixels. Inspect a frame instead of trusting the numeric value.
 
 ## Verification
 
 Use `ffprobe` to verify:
 
-- 1920x1080 and 30 fps;
+- the selected delivery resolution and 30 fps;
 - expected duration;
 - H.264 video and AAC audio;
 - `mov_text` subtitle stream tagged `zho` in the soft-subtitle file.

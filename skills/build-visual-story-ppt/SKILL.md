@@ -13,6 +13,12 @@ Create the deck as a coherent production, not as isolated slides. Keep the narra
 - Use **Editorial Presentation mode** for longer talks, data-heavy stories, or mixed layouts. Read and follow `$guizang-ppt-skill`; select one of its supported styles and registered layouts.
 - Do not force a target slide count. Remove repetitive slides before compressing several ideas onto one page.
 
+## Platform Format
+
+- Ask for the publishing platform only when it is genuinely unknown. For this series and for Douyin, default to a 9:16, 1080x1920 delivery; do not build a 16:9 deck and crop it afterward.
+- Read `references/douyin-vertical-delivery.md` before designing, rendering, or QA-ing a Douyin vertical episode. It defines the cover, safe areas, viewport checks, and delivery contract.
+- Design the first frame as an independent cover. Generate the background without readable text, place exact title typography in HTML or the editor, and export `images/00-douyin-cover.png` at 1080x1920.
+
 ## Required companion skills
 
 - Use `$starailink-image-generation` when the user requests or has configured StaraiLink. Otherwise use `$imagegen`.
@@ -30,7 +36,7 @@ For vertical social-video pages or when a reference uses keyword-led motion, rea
 ### 1. Audit the source
 
 1. Read all supplied scripts, outlines, and existing deck files before rewriting.
-2. Identify the audience, desired duration, CTA, output mode, and hard constraints from available context. Ask only when a missing choice would materially change the result.
+2. Identify the audience, desired duration, CTA, output mode, publishing platform, and hard constraints from available context. Record the delivery aspect ratio before making a page map. Ask only when a missing choice would materially change the result.
 3. Check factual claims. Remove invented statistics, future announcements, unsupported comparisons, and promised resources that do not exist.
 4. Rewrite jargon into conversational examples. Prefer normal work such as drafting an email, cleaning a CSV, organizing invoices, comparing documents, or preparing a report.
 5. Make the transitions explicit. Each section must answer why the next section follows.
@@ -42,7 +48,7 @@ Create a page map before generating images. For each slide record:
 - slide number;
 - one narrative purpose;
 - short on-screen title;
-- visual story or comparison;
+- visual story or comparison, including the vertical safe placement when applicable;
 - narration assigned to that page;
 - transition sentence into the next page.
 
@@ -59,7 +65,7 @@ Write every page prompt before making API calls. Read `references/visual-story-c
 Keep a shared art direction across all prompts:
 
 - consistent palette, medium, line quality, and recurring character;
-- 16:9 composition with safe margins;
+- composition matching the delivery aspect ratio, with safe margins reserved for platform UI and subtitles;
 - exact allowed labels listed verbatim;
 - no extra readable text, watermark, page chrome, or fake UI;
 - composition tied to the spoken example rather than generic AI imagery.
@@ -78,10 +84,10 @@ Create a dedicated prompt for every important analogy. For example, if the narra
 
 For Visual Story mode:
 
-1. Copy `assets/visual-deck-shell.html` to the target `index.html`.
+1. For 16:9 Visual Story work, copy `assets/visual-deck-shell.html` to the target `index.html`. For 9:16 work, use a dedicated vertical canvas; do not stretch the horizontal shell.
 2. Replace `[DECK_TITLE]`, `[ACCENT_COLOR]`, and `<!-- SLIDES_HERE -->`.
 3. Create one `<section class="slide visual-slide">` per image.
-4. Keep the title inside the bottom rail, outside the image. Never place a large caption box over a person, logo, diagram node, or example object.
+4. Keep titles out of a face, logo, diagram node, or example object. For 9:16, follow the vertical safe zones rather than forcing a horizontal bottom rail.
 5. Use `object-fit:cover` only after checking the crop. Adjust `object-position` per page when necessary.
 6. Preserve arrow-key, touch, and dot navigation. Preserve slide movement, image zoom, and caption entrance animation.
 
@@ -121,8 +127,8 @@ Read `references/quality-gates.md` and complete every P0 check.
 At minimum:
 
 1. Serve the deck locally when relative assets or browser restrictions require it.
-2. Inspect all slides at 1280x720 after animations settle.
-3. Check at least the opening, densest relationship diagram, every example layout type, and closing slide at a second 16:9 viewport.
+2. Inspect all slides at the delivery aspect ratio after animations settle. For Douyin, use 540x960 and a 375x667 stress check.
+3. Check at least the opening, densest relationship diagram, every example layout type, and closing slide at a second relevant viewport.
 4. Exercise next, previous, direct dot navigation, and reduced-motion behavior.
 5. Fix visible overlap by changing the layout or safe area, not by merely shrinking text until it is unreadable.
 
@@ -134,14 +140,14 @@ Read `references/minimax-tts.md` when MiniMax is selected or when the user wants
 
 1. Prefer the real narration audio as the timing authority. If no recording exists, estimate duration at 180-220 Chinese characters per minute and state the selected rate.
 2. Generate or record narration page by page so one revised page can be replaced without changing accepted pages.
-3. Capture every settled slide at 1920x1080 and keep a stable 30 fps output.
+3. Capture every settled slide at the declared delivery resolution and keep a stable 30 fps output. For Douyin, this is 1080x1920.
 4. Keep each page completely static by default only when it has one visual point. For a multi-point page, animate each beat with 300-700 ms of `opacity` plus a purposeful motion selected from the short-form motion language, aligned to its narration cue. Use final word timestamps to schedule the cue; page percentages are only a temporary pre-TTS fallback. Do not use instant visibility toggles for content appearing after page start.
 5. Record real HTML beat motion in the browser or capture a sufficiently dense frame sequence that contains intermediate transition frames. Do not concatenate only settled beat screenshots: that produces hard cuts even when the HTML preview animation looks smooth.
 6. Do not apply `zoompan`, drifting crops, or decorative camera motion unless the user explicitly requests it and the result passes motion QA.
 7. Use restrained 0.6-0.8 second transitions only at page boundaries and align them to a spoken pause.
 8. Generate `timing.md` and an `.srt` file from the same narration source and real word timestamps whenever the TTS API provides them.
 9. Keep subtitle chunks around 10-20 Chinese characters and at least 2 seconds when timing permits. Never leave punctuation or an English product name flashing alone.
-10. Place burned subtitles above the title rail with a restrained translucent background. Inspect sample frames from the opening, relationship page, example pages, transition midpoint, and closing page.
+10. Place burned subtitles in the platform-safe caption area with a restrained translucent background. Inspect sample frames from the opening, relationship page, example pages, transition midpoint, and closing page.
 11. Output a clean narrated video, a soft-subtitle MP4, and a burned-subtitle MP4. Include a silent audio track only when narration does not exist.
 
 ### 9. Deliver
@@ -149,6 +155,7 @@ Read `references/minimax-tts.md` when MiniMax is selected or when the user wants
 Return:
 
 - a clickable local preview URL or HTML file;
+- the independent 9:16 cover when the project targets Douyin;
 - the page-by-page narration file;
 - the image-prompt plan;
 - inline preview of at least the opening visual;

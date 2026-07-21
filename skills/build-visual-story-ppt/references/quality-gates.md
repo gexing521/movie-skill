@@ -4,7 +4,7 @@
 
 - Every requested slide exists exactly once and uses the intended image.
 - All images load and are nonblank.
-- Primary text is readable at 1280x720.
+- Primary text is readable at the delivery aspect ratio. For Douyin, inspect 540x960 and stress-test 375x667.
 - No title, caption, page number, or navigation control covers a key subject, logo, label, face, diagram node, table, or file object.
 - No text runs outside its container or wraps as a single orphan character.
 - All exact labels in generated images are spelled correctly.
@@ -18,8 +18,8 @@
 - Use one visual language across the deck: palette, character, line weight, and medium.
 - Use one dominant idea per page.
 - Use generated examples and analogies, not generic AI robots or abstract circuitry.
-- Keep stable 16:9 framing and verify `object-position` per slide.
-- Keep titles in a dedicated safe region; prefer a separate bottom rail for full-image slides.
+- Keep stable target-aspect framing and verify `object-position` per slide.
+- Keep titles in a dedicated platform-safe region. For Douyin, reserve the top 12% and bottom 18% and protect faces and workflow nodes.
 - Avoid large white caption cards floating over artwork.
 - Keep page numbers and navigation secondary.
 - Use motion to explain entry and progression, not continuous decorative movement.
@@ -44,12 +44,12 @@
 Record these checks in working notes or the final summary:
 
 ```text
-Viewport: 1280x720
+Viewport: [delivery review size]
 Slides inspected: all
 Navigation: previous / next / dots
 Assets: all loaded
 Overlap: none found
-Second viewport: [size]
+Second viewport: [stress-test size]
 Known limitations: [none or concise list]
 ```
 
@@ -57,7 +57,7 @@ Wait for entrance animation to finish before judging a screenshot. Reload after 
 
 ## Video and subtitle gates
 
-- Use 1920x1080, 30 fps, H.264, AAC, and `yuv420p` for broad compatibility.
+- Use the selected delivery resolution, 30 fps, H.264, AAC, and `yuv420p` for broad compatibility. For Douyin, use 1080x1920.
 - Make the video duration match the timing plan within one frame.
 - Verify the soft-subtitle MP4 contains a Chinese subtitle stream.
 - Keep every subtitle interval positive, ordered, and non-overlapping.
@@ -70,3 +70,4 @@ Wait for entrance animation to finish before judging a screenshot. Reload after 
 - When the TTS API returns word timestamps, build subtitles from those timestamps and the approved narration instead of estimated timing.
 - Confirm pronunciation rules do not create repeated English product names in the SRT.
 - State clearly when the audio track is silent and intended for later voice-over replacement.
+- For Douyin, verify `images/00-douyin-cover.png` is 1080x1920, matches the first video frame, and holds for 1.2 silent seconds before narration.

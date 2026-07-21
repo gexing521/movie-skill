@@ -51,18 +51,18 @@ Use this structure for each image:
 
 ```text
 Use case: presentation visual
-Asset type: 16:9 slide illustration
+Asset type: illustration matching the target delivery aspect ratio
 Primary request: [the exact visual story]
 Scene/backdrop: [environment and graphic system]
 Subject: [people, objects, relationships, actions]
 Style/medium: [shared art direction]
-Composition/framing: 16:9, key subjects inside central safe area, reserve only the space actually needed by the deck
+Composition/framing: target delivery aspect ratio, key subjects inside the applicable platform-safe area, reserve only the space actually needed by the deck
 Lighting/mood: [tone]
 Color palette: [shared palette]
 Text (verbatim): [exact labels only, or no readable text]
 Constraints: [human control, before/after order, file safety, brand limits]
 Avoid: watermark, long text, extra logos, fake UI, generic robot, unrelated decoration
-Output: 3840x2160 PNG
+Output: match the target delivery aspect ratio; use a high-resolution PNG when the selected image provider supports it
 ```
 
 Use exact brand or file labels sparingly. Generated text is a failure surface; move explanatory language into HTML or narration.
