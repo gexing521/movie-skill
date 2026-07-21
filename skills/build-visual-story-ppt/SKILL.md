@@ -138,6 +138,8 @@ Read `references/video-output.md` when the user requests a recording, presentati
 
 Read `references/minimax-tts.md` when MiniMax is selected or when the user wants API-generated audio and word-level subtitle timing.
 
+For this Chinese tutorial series, use the calm narration preset in `references/minimax-tts.md` unless the user explicitly chooses another voice direction. Rewrite dense sentences for audible thought breaks before synthesis; do not rely on speed changes alone.
+
 1. Prefer the real narration audio as the timing authority. If no recording exists, estimate duration at 180-220 Chinese characters per minute and state the selected rate.
 2. Generate or record narration page by page so one revised page can be replaced without changing accepted pages.
 3. Capture every settled slide at the declared delivery resolution and keep a stable 30 fps output. For Douyin, this is 1080x1920.

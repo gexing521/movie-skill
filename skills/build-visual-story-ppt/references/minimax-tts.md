@@ -22,10 +22,11 @@ Use the current official text-to-audio endpoint and confirm its current model na
   "subtitle_type": "word",
   "output_format": "url",
   "voice_setting": {
-    "voice_id": "TalTutorialVoice20260720",
-    "speed": 1.2,
+    "voice_id": "Chinese_playful_streamer_nv1",
+    "speed": 1.0,
     "vol": 1,
-    "pitch": 0
+    "pitch": 0,
+    "emotion": "calm"
   },
   "audio_setting": {
     "sample_rate": 44100,
@@ -35,7 +36,32 @@ Use the current official text-to-audio endpoint and confirm its current model na
 }
 ```
 
-Use `POST https://api.minimaxi.com/v1/t2a_v2` with `Authorization: Bearer ...`. Treat the voice ID, speed, and end pause as project configuration. For this tutorial series, default to the validated cloned voice `TalTutorialVoice20260720` at `1.20` speed. Use another voice or speed only when the user explicitly requests it.
+Use `POST https://api.minimaxi.com/v1/t2a_v2` with `Authorization: Bearer ...`. Treat the voice ID, emotion, speed, and end pause as project configuration. For this tutorial series, default to `Chinese_playful_streamer_nv1`, `calm`, and `1.00` speed. Use another voice, emotion, or speed only when the user explicitly requests it.
+
+## Calm Tutorial Pacing
+
+- Write one idea per sentence. Put the contrast, conclusion, or instruction in its own short sentence.
+- Use Chinese punctuation to make intent audible: `。` for a thought break, `？` for a question the viewer should consider, `：` before a list, and `，` only inside one complete idea.
+- Keep professional terms visible and speakable. Use pronunciation rules only after an actual mispronunciation; do not change visible spelling merely to influence speech.
+- Give a page about 0.9-1.1 seconds of end pause. Use a longer pause only after the hook, a major conclusion, or the final CTA.
+- Do not use artificial fillers, repeated interjections, sound effects, or music to simulate emphasis. Let wording, punctuation, and the calm delivery carry the rhythm.
+- Store `voice_id`, `emotion`, `speed`, and page pause in the manifest so a later regeneration cannot silently change the delivery.
+
+## Semantic Delivery Profiles
+
+Use one profile per semantic segment, not one arbitrary profile per sentence. Keep at most three profile changes on a page and keep the change subtle enough that the same speaker still sounds natural.
+
+| Segment purpose | Speed | Volume | Pitch | Use for |
+| --- | ---: | ---: | ---: | --- |
+| Hook | 1.03 | 1.04 | +1 | Opening contrast or a direct question |
+| Explain | 0.98 | 1.00 | 0 | Most normal instructional sentences |
+| List | 0.92 | 0.99 | 0 | Professional terms, steps, criteria, or a choice list |
+| Conclusion | 0.94 | 1.02 | -1 | A conclusion the viewer should retain |
+| CTA | 0.97 | 1.00 | 0 | A calm closing instruction |
+
+- Keep `calm` as the emotion for every profile. Do not use pitch changes larger than one semitone or volume changes larger than 0.04 in this series.
+- Generate each semantic segment separately only when its profile differs from the adjacent segment. Concatenate the resulting WAV files in order and shift word timestamps by the actual preceding segment durations.
+- Keep a `segments` array in the page manifest with text, profile, speed, volume, pitch, and duration. Use the merged page audio and shifted words as the only source of final page timing and subtitles.
 
 Add pronunciation rules only for names that the selected voice mispronounces. Keep the approved visible spelling in the narration and subtitles. When a repeated English initial is collapsed despite the dictionary, send a speech-only tokenized form such as `C C Switch`, retain `CC Switch` for visible copy, and map the word timestamps back to the visible spelling before building subtitles or beat timing.
 

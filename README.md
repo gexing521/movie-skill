@@ -36,7 +36,7 @@ npm run build:video
 - `episode-04-narrated-soft-subtitles.mp4`：可关闭字幕版
 - `episode-04-narrated-burned-subtitles.mp4`：字幕压制版，发布默认
 
-当前旁白为 `Chinese_playful_streamer_nv1`，语速为 `1.10`。修改音色或语速后，应重新执行完整的一键生成命令，避免字幕和动效节奏失配。
+当前旁白为 `Chinese_playful_streamer_nv1`，情感为 `calm`，基准语速为 `1.00`。钩子、解释、清单、结论和 CTA 可在不超过三次语义切换的前提下使用小幅的速度、音量和音调变化；完整参数与字幕合并规则见 `skills/build-visual-story-ppt/references/minimax-tts.md`。修改这些参数后，应重新执行完整的一键生成命令，避免字幕和动效节奏失配。
 
 ## 抖音竖版流程
 
