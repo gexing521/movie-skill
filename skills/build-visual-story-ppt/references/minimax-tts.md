@@ -24,7 +24,6 @@ Use the current official text-to-audio endpoint and confirm its current model na
   "voice_setting": {
     "voice_id": "Chinese_playful_streamer_nv1",
     "speed": 1.0,
-    "vol": 1,
     "emotion": "calm"
   },
   "audio_setting": {
@@ -35,7 +34,7 @@ Use the current official text-to-audio endpoint and confirm its current model na
 }
 ```
 
-Use `POST https://api.minimaxi.com/v1/t2a_v2` with `Authorization: Bearer ...`. Treat the voice ID, emotion, speed, volume, and end pause as project configuration. For this tutorial series, default to `Chinese_playful_streamer_nv1`, `calm`, and `1.00` speed. Do not send a `pitch` parameter: preserve the selected voice's native pitch. Use another voice, emotion, or speed only when the user explicitly requests it.
+Use `POST https://api.minimaxi.com/v1/t2a_v2` with `Authorization: Bearer ...`. Treat the voice ID, emotion, speed, and end pause as project configuration. For this tutorial series, default to `Chinese_playful_streamer_nv1`, `calm`, and `1.00` speed. Do not send `pitch` or `vol`: preserve the selected voice's native pitch and volume. Use another voice, emotion, or speed only when the user explicitly requests it.
 
 ## Calm Tutorial Pacing
 
@@ -50,17 +49,17 @@ Use `POST https://api.minimaxi.com/v1/t2a_v2` with `Authorization: Bearer ...`. 
 
 Use one profile per semantic segment, not one arbitrary profile per sentence. Keep at most three profile changes on a page and keep the change subtle enough that the same speaker still sounds natural.
 
-| Segment purpose | Speed | Volume | Use for |
-| --- | ---: | ---: | --- |
-| Hook | 1.06 | 1.04 | Opening contrast or a direct question |
-| Explain | 1.02 | 1.00 | Most normal instructional sentences |
-| List | 1.00 | 1.00 | Professional terms, steps, criteria, or a choice list |
-| Conclusion | 1.02 | 1.03 | A conclusion the viewer should retain |
-| CTA | 1.03 | 1.01 | A calm closing instruction |
+| Segment purpose | Speed | Use for |
+| --- | ---: | --- |
+| Hook | 1.06 | Opening contrast or a direct question |
+| Explain | 1.02 | Most normal instructional sentences |
+| List | 1.00 | Professional terms, steps, criteria, or a choice list |
+| Conclusion | 1.02 | A conclusion the viewer should retain |
+| CTA | 1.03 | A calm closing instruction |
 
-- Keep `calm` as the emotion for every profile. Never modify pitch or send a `pitch` field. `1.00` is the minimum allowed speed; use `1.00-1.06` for this series, increasing speed only when a segment needs more forward momentum. Keep volume within `1.00-1.04`.
+- Keep `calm` as the emotion for every profile. Never modify pitch or volume, and never send `pitch` or `vol` fields. `1.00` is the minimum allowed speed; use `1.00-1.06` for this series, increasing speed only when a segment needs more forward momentum.
 - Generate each semantic segment separately only when its profile differs from the adjacent segment. Concatenate the resulting WAV files in order and shift word timestamps by the actual preceding segment durations.
-- Keep a `segments` array in the page manifest with text, profile, speed, volume, and duration. Use the merged page audio and shifted words as the only source of final page timing and subtitles.
+- Keep a `segments` array in the page manifest with text, profile, speed, and duration. Use the merged page audio and shifted words as the only source of final page timing and subtitles.
 
 Add pronunciation rules only for names that the selected voice mispronounces. Keep the approved visible spelling in the narration and subtitles. When a repeated English initial is collapsed despite the dictionary, send a speech-only tokenized form such as `C C Switch`, retain `CC Switch` for visible copy, and map the word timestamps back to the visible spelling before building subtitles or beat timing. For the standalone term `AI`, always send `A I` to MiniMax and retain `AI` for visible copy; do not use an inline phonetic dictionary rule for it.
 

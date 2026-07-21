@@ -149,7 +149,7 @@ for (const slide of slides) {
     subtitleJson = JSON.parse(fs.readFileSync(subtitlePath, "utf8")); durationMs = prior.duration_ms; usageCharacters = prior.usage_characters; traceId = prior.trace_id;
   } else {
     const requestText = `${synthesisText}<#${pagePauseSeconds.toFixed(2)}#>`;
-    const response = await fetch("https://api.minimaxi.com/v1/t2a_v2", { method:"POST", headers:{ Authorization:`Bearer ${apiKey}`, "Content-Type":"application/json" }, body:JSON.stringify({ model, text:requestText, stream:false, subtitle_enable:true, subtitle_type:"word", output_format:"url", voice_setting:{ voice_id:voiceId, speed:speechSpeed, vol:1 }, audio_setting:{ sample_rate:44100, format:"wav", channel:1 }, pronunciation_dict:{ tone:["Codex/(ˈkoʊdɛks)","C C Switch/(siː siː swɪtʃ)","CC Switch/(siː siː swɪtʃ)"] } }) });
+    const response = await fetch("https://api.minimaxi.com/v1/t2a_v2", { method:"POST", headers:{ Authorization:`Bearer ${apiKey}`, "Content-Type":"application/json" }, body:JSON.stringify({ model, text:requestText, stream:false, subtitle_enable:true, subtitle_type:"word", output_format:"url", voice_setting:{ voice_id:voiceId, speed:speechSpeed }, audio_setting:{ sample_rate:44100, format:"wav", channel:1 }, pronunciation_dict:{ tone:["Codex/(ˈkoʊdɛks)","C C Switch/(siː siː swɪtʃ)","CC Switch/(siː siː swɪtʃ)"] } }) });
     const body = await response.json();
     if (!response.ok || body.base_resp?.status_code !== 0) throw new Error(`Page ${page} synthesis failed: ${body.base_resp?.status_msg ?? response.status}`);
     await download(body.data.audio, audioPath); subtitleJson = await (await fetch(body.data.subtitle_file)).json(); fs.writeFileSync(subtitlePath, `${JSON.stringify(subtitleJson, null, 2)}\n`);
