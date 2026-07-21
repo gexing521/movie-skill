@@ -38,6 +38,8 @@ Default to 200 Chinese characters per minute and a 1-2 second page pause. Count 
 4. Restore the browser viewport afterward.
 5. Store frames as `video/<episode>/frames/01.png` and so on.
 
+When using Playwright video recording, account for the short interval before the local deck has loaded. Add a small render lead (about 0.5-0.7 seconds) to every CSS beat delay, record the lead plus the real page duration, then trim exactly that lead from the recorded clip before assembly. Verify that each source recording is longer than `lead + page_duration`; otherwise the final page clip can lose its last beat or begin with an unintended browser frame.
+
 ## Within-slide motion capture
 
 For a slide that contains several narrated visual beats, a settled screenshot per beat is insufficient: the resulting delivery will jump from state to state. Treat the browser animation as the visual source of truth.
@@ -61,6 +63,8 @@ Use the selected delivery format:
 - AAC at 48 kHz, preserving mono or stereo narration as appropriate;
 - completely static frames during one-point page display, or real captured beat motion during multi-point page display;
 - 0.6-0.8 second restrained transitions.
+
+For a Douyin cover, render the body timeline first, then concatenate the 1.2-second cover video before it. Concatenate an equal-duration silent mono audio segment before the merged narration audio. Do not crossfade the cover into the first body page: the narration must begin only after the full silent cover hold.
 
 Do not apply slow `zoompan` by default. Tiny fractional crop changes on a 1920x1080 source can round to adjacent pixels and look like camera shake. Keep explanatory movement in the HTML deck and page transitions, not as continuous video drift.
 
@@ -93,7 +97,7 @@ When narration is unavailable, use the `*-screen` names and include a silent AAC
 - Place burned captions above the deck title rail.
 - Use a readable Chinese font and a compact translucent dark background.
 
-Because libass may use a 384x288 subtitle coordinate space for SRT, test the actual rendered size at the final delivery resolution. A nominal ASS `FontSize=12` can appear near 42-46 pixels. Inspect a frame instead of trusting the numeric value.
+Because libass may use a 384x288 subtitle coordinate space for SRT, test the actual rendered size at the final delivery resolution. On this macOS renderer, start with `FontSize=6`, `BorderStyle=3`, and a translucent background, then inspect a crowded page; larger nominal sizes can become oversized at 1080x1920. Keep the subtitle box above the bottom 18% safe zone and below the active diagram or card, rather than trusting the numeric margin alone.
 
 ## Verification
 
