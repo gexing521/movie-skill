@@ -1,15 +1,15 @@
 ---
 name: build-visual-story-ppt
-description: Turn source material, articles, outlines, or spoken scripts into a polished visual-story presentation and narrated explainer video with fact-checked structure, page-by-page speaker notes, AI-generated slide artwork, minimal on-screen text, real TTS narration, word-timed subtitles, restrained transitions, and browser/video QA. Use when Codex needs to create or rebuild an image-led PPT/web deck, AI or technology explainer, lecture video, short-form presentation, visual keynote, narrated MP4, or a deck that must include generated images, speaker notes, voice-over, and synchronized subtitles.
+description: Turn source material, articles, outlines, or spoken scripts into a polished, high-retention visual-story video using HyperFrames HTML, CSS, and GSAP. Covers fact-checked structure, page-by-page narration, generated artwork, motion choreography, TTS, word-timed subtitles, HyperFrames rendering, and visual QA. Use when Codex needs to create or rebuild an image-led PPT/web deck, AI or technology explainer, lecture video, short-form presentation, visual keynote, narrated MP4, or a deck with synchronized voice-over and captions.
 ---
 
 # Build Visual Story PPT
 
-Create the deck as a coherent production, not as isolated slides. Keep the narration, image plan, generated assets, beat timing, and final HTML synchronized.
+Create the video as a coherent production, not as isolated slides. Keep the narration, image plan, generated assets, beat timing, HyperFrames composition, and final HTML synchronized.
 
 ## Select the mode
 
-- Use **Visual Story mode** for short videos, explainers, and image-led decks. Default to 4-8 slides, one visual beat per slide, and the bundled `assets/visual-deck-shell.html`.
+- Use **Visual Story mode** for short videos, explainers, and image-led decks. Default to 4-8 scenes, one visual beat per scene, and a HyperFrames composition.
 - Use **Editorial Presentation mode** for longer talks, data-heavy stories, or mixed layouts. Read and follow `$guizang-ppt-skill`; select one of its supported styles and registered layouts.
 - Do not force a target slide count. Remove repetitive slides before compressing several ideas onto one page.
 
@@ -23,9 +23,18 @@ Create the deck as a coherent production, not as isolated slides. Keep the narra
 
 - Use `$starailink-image-generation` when the user requests or has configured StaraiLink. Otherwise use `$imagegen`.
 - Use `$guizang-ppt-skill` for editorial templates, navigation conventions, or longer mixed-layout decks.
-- Use `$FFmpeg Video Editor` to render narration-timed MP4 files, subtitle tracks, and burned captions.
-- Use `browser:control-in-app-browser` to verify the finished local deck visually.
+- Use the `$hyperframes` and `$hyperframes-cli` plugin skills for every Visual Story composition, motion timeline, preview, QA, and primary MP4 render. HyperFrames HTML and GSAP are the source of truth; do not substitute a browser recording script or independently concatenated page clips.
+- Use `$FFmpeg Video Editor` only after HyperFrames renders when subtitle muxing, subtitle burn-in, compression, or metadata work is needed.
+- Use `browser:control-in-app-browser` to review the HyperFrames Studio preview when an interactive browser check adds value.
 - Use an authoritative research or documentation skill when the script contains current product claims, dates, prices, usage figures, or model capabilities.
+
+## Visual Identity Gate
+
+Before writing any composition HTML, create or update a project-local `DESIGN.md`. It must name the audience and emotional arc, specify a 3-5 color palette with roles, typography choices, motion/transition direction, and 3-5 visual anti-patterns to avoid. Derive every scene from this file.
+
+For this AI tutorial series, prefer an energetic editorial social-video language: a clear visual contrast, vivid semantic accents such as electric blue, lime, hot pink, and orange, and one dominant visual event per scene. Use color to explain state and priority rather than as decoration. The hook must create an immediate before/after tension, for example “a wall of low-value output” collapsing into “one decisive next action.”
+
+Reject dashboard grids, piles of identical cards, large empty middle bands, generic robots, floating code, generic circuitry, and dark tool-console layouts. Do not reuse the older `3D minimalist / C4D render` blue-grey default unless the user explicitly asks for it.
 
 ## Short-Form Motion Language
 
@@ -42,6 +51,7 @@ For horizontal 16:9 pages, use the `Horizontal Motion Library` in that reference
 3. Check factual claims. Remove invented statistics, future announcements, unsupported comparisons, and promised resources that do not exist.
 4. Rewrite jargon into conversational examples. Prefer normal work such as drafting an email, cleaning a CSV, organizing invoices, comparing documents, or preparing a report.
 5. Make the transitions explicit. Each section must answer why the next section follows.
+6. Write `DESIGN.md` before authoring HTML. If the user has already specified visual direction, turn it into concrete colors, type, motion, and anti-patterns instead of asking them to repeat it.
 
 ### 2. Build the slide map
 
@@ -54,7 +64,7 @@ Create a page map before generating images. For each slide record:
 - narration assigned to that page;
 - transition sentence into the next page.
 
-For a short-form Visual Story deck, default to no more than 10 Chinese characters of primary on-screen copy per slide unless the user requests otherwise. Put explanations in the narration, not on the canvas.
+For a short-form Visual Story deck, default to no more than 10 Chinese characters of primary on-screen copy per scene unless the user requests otherwise. Put explanations in the narration, not on the canvas.
 
 When a page has more than one narrated visual point, add a beat table before implementation. For every beat record the exact narration cue, element group, entrance direction, motion verb, and settled state. Use 2-4 beats per page unless the topic genuinely needs more. A beat is an explanatory reveal, not a hard replacement of the entire slide. Do not use one generic set of normalized offsets for every page: write narration that names each visual point in sequence, then derive that page's offsets from the final TTS word timestamps.
 
@@ -67,7 +77,7 @@ Write every page prompt before making API calls. Read `references/visual-story-c
 Keep a shared art direction across all prompts:
 
 - consistent palette, medium, line quality, and recurring character;
-- for this AI tutorial series, use a 3D minimalist C4D-render visual language: blue, white, and neutral grey; clean edges; matte surfaces; subtle neon glow without overexposure; soft diffused lighting; low noise; moderate depth of field; high-definition detail. Do not substitute cartoon illustration, saturated poster art, generic robots, or floating-code decoration;
+- derive color, material, and composition from `DESIGN.md`; for this AI tutorial series, favor vivid, high-contrast editorial scenes that make the spoken comparison legible at a glance. Avoid dashboard chrome, generic robots, floating-code decoration, and text baked into images;
 - composition matching the delivery aspect ratio, with safe margins reserved for platform UI and subtitles;
 - exact allowed labels listed verbatim;
 - no extra readable text, watermark, page chrome, or fake UI;
@@ -87,12 +97,13 @@ Create a dedicated prompt for every important analogy. For example, if the narra
 
 For Visual Story mode:
 
-1. For 16:9 Visual Story work, copy `assets/visual-deck-shell.html` to the target `index.html`. For 9:16 work, use a dedicated vertical canvas; do not stretch the horizontal shell.
-2. Replace `[DECK_TITLE]`, `[ACCENT_COLOR]`, and `<!-- SLIDES_HERE -->`.
-3. Create one `<section class="slide visual-slide">` per image.
-4. Keep titles out of a face, logo, diagram node, or example object. For 9:16, follow the vertical safe zones rather than forcing a horizontal bottom rail.
-5. Use `object-fit:cover` only after checking the crop. Adjust `object-position` per page when necessary.
-6. Preserve arrow-key, touch, and dot navigation. Preserve slide movement, image zoom, and caption entrance animation.
+1. Initialize the project with `npx hyperframes init <project-name> --non-interactive`. Keep the root `index.html`, `compositions/`, narration assets, `DESIGN.md`, and snapshots together in the HyperFrames project.
+2. Build the hero frame statically before adding motion. Each composition needs a unique `data-composition-id`, a declared duration and dimensions, a paused GSAP timeline registered in `window.__timelines`, and deterministic animation only.
+3. Use a flex-based scene container with padding, stable dimensions, and responsive constraints. Reserve absolute positioning for decoration. In this series, meaningful body-stage text must be at least 32 px; repeated function or decision modules must be at least about 120 px high. When content does not fit, combine or rewrite it instead of shrinking it.
+4. Give every scene a dominant visual event tied to the narration. Use 2-4 purposeful entrances per multi-point scene. Elements must enter with opacity plus a distinct motion; do not reveal a completed screen all at once.
+5. Use transitions between scenes. Choose one primary transition for 60-70% of changes plus one or two accents. Do not add manual exit animations before a scene transition; the transition performs the handoff.
+6. Keep titles out of faces, logos, diagram nodes, and example objects. For 9:16, use a dedicated composition and follow the cover safe zones rather than stretching a horizontal layout.
+7. Use exact commands, filenames, and product names as HTML text, never as generated-image text.
 
 For Editorial Presentation mode, follow the selected guizang template and its validation rules instead of the bundled shell.
 
@@ -123,17 +134,17 @@ Before generating speech, audit every page boundary using the exact flattened TT
 - Remove repeated numbering when the visuals already establish the sequence.
 - Lock the approved narration before calling a paid TTS API.
 
-### 7. Verify in the browser
+### 7. Verify the HyperFrames composition
 
 Read `references/quality-gates.md` and complete every P0 check.
 
 At minimum:
 
-1. Serve the deck locally when relative assets or browser restrictions require it.
-2. Inspect all body slides at the delivery aspect ratio after animations settle. For this series, use 1920x1080 and a 1280x720 stress check. Inspect the independent Douyin cover at 540x960 and 375x667.
-3. Check at least the opening, densest relationship diagram, every example layout type, and closing slide at a second relevant viewport.
-4. Exercise next, previous, direct dot navigation, and reduced-motion behavior.
-5. Fix visible overlap by changing the layout or safe area, not by merely shrinking text until it is unreadable.
+1. Run `npx hyperframes lint`, then `npx hyperframes validate`. Fix every error, missing asset, runtime error, and contrast warning before proceeding.
+2. Run `npx hyperframes inspect --samples 15` for a new composition or substantial motion change. Fix overflow, clipping, off-canvas content, and unintentional overlap; only mark intentionally overflowing entrance decoration with the documented escape attribute.
+3. Capture `npx hyperframes snapshot <project-dir> --at <beat-hero-times>` after validation. Inspect every snapshot, including hook, mid-beat, densest scene, key transition midpoint, and close. Check visual hierarchy, crop, legibility, safe areas, and that the named asset is present.
+4. Start `npx hyperframes preview --port <available-port>` and scrub every beat in the Studio. For this series, inspect body compositions at 1920x1080 plus a 1280x720 stress check; inspect the independent Douyin cover at 540x960 and 375x667.
+5. Fix visible overlap by changing the layout or safe area, not by merely shrinking text until it is unreadable. Fix a dry scene by strengthening the comparison or visual event, not by adding more cards or copy.
 
 ### 8. Render the narration-timed video
 
@@ -145,9 +156,9 @@ For this Chinese tutorial series, use the calm narration preset in `references/m
 
 1. Prefer the real narration audio as the timing authority. If no recording exists, estimate duration at 180-220 Chinese characters per minute and state the selected rate.
 2. Generate or record narration page by page so one revised page can be replaced without changing accepted pages.
-3. Capture every settled slide at the declared delivery resolution and keep a stable 30 fps output. For this series, the body video is 1920x1080; export its 1080x1920 cover separately.
+3. Do not render an MP4 until the user explicitly requests an export. When requested, use `npx hyperframes render --output renders/<project-name>.mp4 --fps 30 --quality high` as the primary render path. For this series, the body video is 1920x1080; export its 1080x1920 cover separately.
 4. Keep each page completely static by default only when it has one visual point. For a multi-point page, animate each beat with 300-700 ms of `opacity` plus a purposeful motion selected from the short-form motion language, aligned to its narration cue. Use final word timestamps to schedule the cue; page percentages are only a temporary pre-TTS fallback. Do not use instant visibility toggles for content appearing after page start.
-5. Record real HTML beat motion in the browser or capture a sufficiently dense frame sequence that contains intermediate transition frames. Do not concatenate only settled beat screenshots: that produces hard cuts even when the HTML preview animation looks smooth.
+5. HyperFrames renders real HTML beat motion and scene transitions. Do not use a browser recording script or concatenate settled screenshots as a substitute.
 6. Do not apply `zoompan`, drifting crops, or decorative camera motion unless the user explicitly requests it and the result passes motion QA.
 7. Use restrained 0.6-0.8 second transitions only at page boundaries and align them to a spoken pause.
 8. Generate `timing.md` and an `.srt` file from the same narration source and real word timestamps whenever the TTS API provides them.
@@ -159,7 +170,7 @@ For this Chinese tutorial series, use the calm narration preset in `references/m
 
 Return:
 
-- a clickable local preview URL or HTML file;
+- the HyperFrames Studio preview URL;
 - the independent 9:16 cover when the project targets Douyin;
 - the page-by-page narration file;
 - the image-prompt plan;
