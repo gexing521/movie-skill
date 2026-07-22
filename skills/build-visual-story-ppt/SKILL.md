@@ -5,7 +5,7 @@ description: Turn source material, articles, outlines, or spoken scripts into a 
 
 # Build Visual Story PPT
 
-Create the video as a coherent production, not as isolated slides. Keep the narration, image plan, generated assets, beat timing, HyperFrames composition, and final HTML synchronized.
+Create the video as a coherent production, not as isolated slides. Keep the narration, image plan, generated assets, beat timing, selected render composition, and final HTML synchronized.
 
 ## Select the mode
 
@@ -23,9 +23,12 @@ Create the video as a coherent production, not as isolated slides. Keep the narr
 
 - Use `$starailink-image-generation` when the user requests or has configured StaraiLink. Otherwise use `$imagegen`.
 - Use `$guizang-ppt-skill` for editorial templates, navigation conventions, or longer mixed-layout decks.
-- Use the `$hyperframes` and `$hyperframes-cli` plugin skills for every Visual Story composition, motion timeline, preview, QA, and primary MP4 render. HyperFrames HTML and GSAP are the source of truth; do not substitute a browser recording script or independently concatenated page clips.
-- Use `$FFmpeg Video Editor` only after HyperFrames renders when subtitle muxing, subtitle burn-in, compression, or metadata work is needed.
-- Use `browser:control-in-app-browser` to review the HyperFrames Studio preview when an interactive browser check adds value.
+- Read `references/toolchain-selection.md` before choosing a composition engine.
+- Use the `$hyperframes` and `$hyperframes-cli` plugin skills as the default for Visual Story composition, motion timeline, Studio preview, QA, and primary MP4 render. HyperFrames HTML and GSAP are the source of truth when selected; do not substitute a browser recording script or independently concatenated page clips.
+- Use the `$remotion` plugin when the production needs React component reuse, parameterized/variant renders, frame-accurate audio sequencing, substantial data visualization, or a complex programmatic composition. Follow its rules for compositions, sequencing, timing, assets, fonts, captions, and transitions.
+- Use the Figma plugin when the user provides a Figma reference, requests an editable Figma cover/deck/layout, or needs a design-system-backed visual direction. Load `$figma-use` before Figma mutations; use `$figma-generate-design` for a complete screen/view, `$figma-use-slides` for an editable slide deck, and `$figma-implement-motion` only for Figma prototypes. Figma is a design source, not the final video render engine.
+- Use `$FFmpeg Video Editor` only after the selected primary renderer finishes when subtitle muxing, subtitle burn-in, compression, or metadata work is needed.
+- Use `browser:control-in-app-browser` to review a HyperFrames Studio or Remotion Studio preview when an interactive browser check adds value.
 - Use an authoritative research or documentation skill when the script contains current product claims, dates, prices, usage figures, or model capabilities.
 
 ## Visual Identity Gate
@@ -97,13 +100,15 @@ Create a dedicated prompt for every important analogy. For example, if the narra
 
 For Visual Story mode:
 
-1. Initialize the project with `npx hyperframes init <project-name> --non-interactive`. Keep the root `index.html`, `compositions/`, narration assets, `DESIGN.md`, and snapshots together in the HyperFrames project.
-2. Build the hero frame statically before adding motion. Each composition needs a unique `data-composition-id`, a declared duration and dimensions, a paused GSAP timeline registered in `window.__timelines`, and deterministic animation only.
-3. Use a flex-based scene container with padding, stable dimensions, and responsive constraints. Reserve absolute positioning for decoration. In this series, meaningful body-stage text must be at least 32 px; repeated function or decision modules must be at least about 120 px high. When content does not fit, combine or rewrite it instead of shrinking it.
-4. Give every scene a dominant visual event tied to the narration. Use 2-4 purposeful entrances per multi-point scene. Elements must enter with opacity plus a distinct motion; do not reveal a completed screen all at once.
-5. Use transitions between scenes. Choose one primary transition for 60-70% of changes plus one or two accents. Do not add manual exit animations before a scene transition; the transition performs the handoff.
-6. Keep titles out of faces, logos, diagram nodes, and example objects. For 9:16, use a dedicated composition and follow the cover safe zones rather than stretching a horizontal layout.
-7. Use exact commands, filenames, and product names as HTML text, never as generated-image text.
+1. Choose the primary render engine once, record the decision in `DESIGN.md`, and keep one source-of-truth timeline. Never split a final video across independent HyperFrames and Remotion timelines.
+2. For HyperFrames, initialize with `npx hyperframes init <project-name> --non-interactive`. Keep the root `index.html`, `compositions/`, narration assets, `DESIGN.md`, and snapshots together. Build the hero frame statically before adding motion. Each composition needs a unique `data-composition-id`, a declared duration and dimensions, a paused GSAP timeline registered in `window.__timelines`, and deterministic animation only.
+3. For Remotion, scaffold an empty project with `npx create-video@latest --yes --blank --no-tailwind <project-name>` when no project exists. Declare compositions and duration explicitly, sequence scenes frame-accurately, load local assets and fonts through Remotion APIs, and use Remotion Studio plus still-frame checks before a final render.
+4. For Figma-assisted work, inspect the supplied file or create one only when an editable Figma deliverable is actually needed. Extract approved tokens, type, assets, and layout decisions into `DESIGN.md`; export or recreate those assets in the selected render engine. Do not treat Figma prototype timing as the final-video clock.
+5. Use a flex-based scene container with padding, stable dimensions, and responsive constraints. Reserve absolute positioning for decoration. In this series, meaningful body-stage text must be at least 32 px; repeated function or decision modules must be at least about 120 px high. When content does not fit, combine or rewrite it instead of shrinking it.
+6. Give every scene a dominant visual event tied to the narration. Use 2-4 purposeful entrances per multi-point scene. Elements must enter with opacity plus a distinct motion; do not reveal a completed screen all at once.
+7. Use transitions between scenes. Choose one primary transition for 60-70% of changes plus one or two accents. Do not add manual exit animations before a scene transition; the transition performs the handoff.
+8. Keep titles out of faces, logos, diagram nodes, and example objects. For 9:16, use a dedicated composition and follow the cover safe zones rather than stretching a horizontal layout.
+9. Use exact commands, filenames, and product names as HTML text, never as generated-image text.
 
 For Editorial Presentation mode, follow the selected guizang template and its validation rules instead of the bundled shell.
 
@@ -134,17 +139,16 @@ Before generating speech, audit every page boundary using the exact flattened TT
 - Remove repeated numbering when the visuals already establish the sequence.
 - Lock the approved narration before calling a paid TTS API.
 
-### 7. Verify the HyperFrames composition
+### 7. Verify the selected composition
 
 Read `references/quality-gates.md` and complete every P0 check.
 
 At minimum:
 
-1. Run `npx hyperframes lint`, then `npx hyperframes validate`. Fix every error, missing asset, runtime error, and contrast warning before proceeding.
-2. Run `npx hyperframes inspect --samples 15` for a new composition or substantial motion change. Fix overflow, clipping, off-canvas content, and unintentional overlap; only mark intentionally overflowing entrance decoration with the documented escape attribute.
-3. Capture `npx hyperframes snapshot <project-dir> --at <beat-hero-times>` after validation. Inspect every snapshot, including hook, mid-beat, densest scene, key transition midpoint, and close. Check visual hierarchy, crop, legibility, safe areas, and that the named asset is present.
-4. Start `npx hyperframes preview --port <available-port>` and scrub every beat in the Studio. For this series, inspect body compositions at 1920x1080 plus a 1280x720 stress check; inspect the independent Douyin cover at 540x960 and 375x667.
-5. Fix visible overlap by changing the layout or safe area, not by merely shrinking text until it is unreadable. Fix a dry scene by strengthening the comparison or visual event, not by adding more cards or copy.
+1. For HyperFrames, run `npx hyperframes lint`, `npx hyperframes validate`, and `npx hyperframes inspect --samples 15`. Capture `npx hyperframes snapshot <project-dir> --at <beat-hero-times>` after validation. Fix every error, missing asset, runtime error, contrast warning, overflow, clipping, off-canvas item, and unintentional overlap before proceeding.
+2. For Remotion, open `npx remotion studio`, render still frames from the hook, mid-beat, densest scene, transition midpoint, and close with `npx remotion still [composition-id] --frame <frame>`. Inspect those frames and resolve layout, crop, font-loading, and timing errors before final render.
+3. Start the selected Studio preview and scrub every beat. For this series, inspect body compositions at 1920x1080 plus a 1280x720 stress check; inspect the independent Douyin cover at 540x960 and 375x667.
+4. Fix visible overlap by changing the layout or safe area, not by merely shrinking text until it is unreadable. Fix a dry scene by strengthening the comparison or visual event, not by adding more cards or copy.
 
 ### 8. Render the narration-timed video
 
@@ -156,9 +160,9 @@ For this Chinese tutorial series, use the calm narration preset in `references/m
 
 1. Prefer the real narration audio as the timing authority. If no recording exists, estimate duration at 180-220 Chinese characters per minute and state the selected rate.
 2. Generate or record narration page by page so one revised page can be replaced without changing accepted pages.
-3. Do not render an MP4 until the user explicitly requests an export. When requested, use `npx hyperframes render --output renders/<project-name>.mp4 --fps 30 --quality high` as the primary render path. For this series, the body video is 1920x1080; export its 1080x1920 cover separately.
+3. Do not render an MP4 until the user explicitly requests an export. When requested, render with the selected engine: `npx hyperframes render --output renders/<project-name>.mp4 --fps 30 --quality high` for HyperFrames, or the project's documented `npx remotion render <composition-id> renders/<project-name>.mp4` command for Remotion. For this series, the body video is 1920x1080; export its 1080x1920 cover separately.
 4. Keep each page completely static by default only when it has one visual point. For a multi-point page, animate each beat with 300-700 ms of `opacity` plus a purposeful motion selected from the short-form motion language, aligned to its narration cue. Use final word timestamps to schedule the cue; page percentages are only a temporary pre-TTS fallback. Do not use instant visibility toggles for content appearing after page start.
-5. HyperFrames renders real HTML beat motion and scene transitions. Do not use a browser recording script or concatenate settled screenshots as a substitute.
+5. The selected renderer must produce the real HTML/React beat motion and scene transitions. Do not use a browser recording script or concatenate settled screenshots as a substitute.
 6. Do not apply `zoompan`, drifting crops, or decorative camera motion unless the user explicitly requests it and the result passes motion QA.
 7. Use restrained 0.6-0.8 second transitions only at page boundaries and align them to a spoken pause.
 8. Generate `timing.md` and an `.srt` file from the same narration source and real word timestamps whenever the TTS API provides them.
@@ -170,7 +174,7 @@ For this Chinese tutorial series, use the calm narration preset in `references/m
 
 Return:
 
-- the HyperFrames Studio preview URL;
+- the selected Studio preview URL and primary render engine;
 - the independent 9:16 cover when the project targets Douyin;
 - the page-by-page narration file;
 - the image-prompt plan;

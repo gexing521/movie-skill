@@ -1,6 +1,6 @@
 # AI 视频生成技能包
 
-这是可直接迁移的视频生成技能包，含 HyperFrames 网页视频构图与 GSAP 动效、旁白脚本、MiniMax 语音生成、字级时间戳字幕、字幕封装，以及 StaraiLink 生图 skill。HyperFrames 是构图、动效、预览、质量检查和主视频渲染的唯一链路；FFmpeg 只处理字幕封装、压制或转码。它不含任何 API 密钥或已生成视频、音频，因此可以作为可复用源包迁移到另一台电脑。
+这是可直接迁移的视频生成技能包，含 HyperFrames 网页视频构图与 GSAP 动效、Remotion React 视频编排、Figma 设计协作、旁白脚本、MiniMax 语音生成、字级时间戳字幕、字幕封装，以及 StaraiLink 生图 skill。默认用 HyperFrames；需要 React 组件化或帧精确程序化视频时可选择 Remotion；需要可编辑设计稿或 Figma 参考时可使用 Figma。每期只选一个主渲染引擎，FFmpeg 只处理字幕封装、压制或转码。它不含任何 API 密钥或已生成视频、音频，因此可以作为可复用源包迁移到另一台电脑。
 
 ## 首次安装
 
@@ -44,6 +44,16 @@ npx hyperframes render --output renders/episode-xx.mp4 --fps 30 --quality high
 ```
 
 随后如需可关闭字幕版或字幕压制版，再使用 FFmpeg 完成。
+
+需要 React 组件复用、数据动画、音频帧级编排或批量生成版本时，改用 Remotion：
+
+```bash
+npx create-video@latest --yes --blank --no-tailwind episode-xx-remotion
+cd episode-xx-remotion
+npx remotion studio
+```
+
+需要交付可编辑 Figma 封面、分镜或版式时，用 Figma 插件先建立设计源，再把已确认的设计令牌和资产写入该期 `DESIGN.md`，由 HyperFrames 或 Remotion 完成最终视频。完整选择规则见 `skills/build-visual-story-ppt/references/toolchain-selection.md`。
 
 当前旁白为 `Chinese_casual_instructor_nv1`，情感为 `calm`，基准语速为 `1.02`。钩子、解释、清单、结论和 CTA 可在不超过三次语义切换的前提下使用小幅的速度变化；语速只能为 `1.00` 或更快，且不传递 `pitch` 或 `vol` 参数，始终保持音色原始音调和音量。完整参数与字幕合并规则见 `skills/build-visual-story-ppt/references/minimax-tts.md`。修改这些参数后，应重新执行完整的一键生成命令，避免字幕和动效节奏失配。
 

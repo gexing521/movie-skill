@@ -4,8 +4,10 @@
 
 - Every requested slide exists exactly once and uses the intended image.
 - All images load and are nonblank.
-- `npx hyperframes lint` and `npx hyperframes validate` pass before preview. `npx hyperframes inspect --samples 15` has no unaddressed overflow, clipping, off-canvas, or collision finding.
-- HyperFrames snapshots exist for every major beat and have been visually reviewed. A browser recording or static-frame concatenation is not an accepted replacement for a HyperFrames render.
+- The primary render engine is recorded in `DESIGN.md`, has one source-of-truth timeline, and owns the preview, timing, transitions, captions, and MP4 render.
+- For HyperFrames: `npx hyperframes lint` and `npx hyperframes validate` pass before preview; `npx hyperframes inspect --samples 15` has no unaddressed overflow, clipping, off-canvas, or collision finding; snapshots exist for every major beat and have been visually reviewed.
+- For Remotion: Remotion Studio loads the selected composition, and still frames of the hook, mid-beat, densest scene, transition midpoint, and close have been visually reviewed.
+- A browser recording or static-frame concatenation is not an accepted replacement for a primary-engine render.
 - Primary text is readable at the body delivery aspect ratio. For this series, inspect body pages at 1920x1080 and stress-test at 1280x720. Inspect the independent Douyin cover at 540x960 and 375x667.
 - Focal content is not reduced to thin rails or tiny labels. At delivery size, meaningful body-stage text is at least 32 px, repeated modules are roughly 120 px high or larger, and the central frame is visibly occupied.
 - No title, caption, page number, or navigation control covers a key subject, logo, label, face, diagram node, table, or file object.
@@ -65,7 +67,7 @@ Wait for entrance animation to finish before judging a screenshot. Reload after 
 ## Video and subtitle gates
 
 - Use the selected body delivery resolution, 30 fps, H.264, AAC, and `yuv420p` for broad compatibility. For this series, use 1920x1080.
-- Use HyperFrames as the primary composition and MP4 render path. Run `npx hyperframes lint`, `validate`, `inspect`, `snapshot`, and `preview` before a requested final `npx hyperframes render`.
+- Use the selected primary composition and MP4 render path. Run the required HyperFrames or Remotion validation path before the user-requested final render.
 - Make the video duration match the timing plan within one frame.
 - Verify the soft-subtitle MP4 contains a Chinese subtitle stream.
 - Keep every subtitle interval positive, ordered, and non-overlapping.
