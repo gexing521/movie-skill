@@ -15,9 +15,9 @@ Create the deck as a coherent production, not as isolated slides. Keep the narra
 
 ## Platform Format
 
-- Ask for the publishing platform only when it is genuinely unknown. For this series and for Douyin, default to a 9:16, 1080x1920 delivery; do not build a 16:9 deck and crop it afterward.
-- Read `references/douyin-vertical-delivery.md` before designing, rendering, or QA-ing a Douyin vertical episode. It defines the cover, safe areas, viewport checks, and delivery contract.
-- Design the first frame as an independent cover. Generate the background without readable text, place exact title typography in HTML or the editor, and export `images/00-douyin-cover.png` at 1080x1920.
+- Ask for the publishing platform only when it is genuinely unknown. For this series, default to a 16:9, 1920x1080 main video plus an independent Douyin cover at 9:16, 1080x1920. Do not crop a horizontal body video into vertical.
+- Read `references/douyin-vertical-delivery.md` before designing the independent Douyin cover. It defines cover safe areas and viewport checks; it does not change the selected body-video ratio.
+- Design an independent 9:16 cover. Generate the background without readable text, place exact title typography in HTML or the editor, and export `images/00-douyin-cover.png` at 1080x1920. Do not force the cover into the body-video timeline unless the user explicitly requests an in-video vertical intro.
 
 ## Required companion skills
 
@@ -30,6 +30,8 @@ Create the deck as a coherent production, not as isolated slides. Keep the narra
 ## Short-Form Motion Language
 
 For vertical social-video pages or when a reference uses keyword-led motion, read `references/short-form-motion.md` before writing the beat table. Use the reference's motion grammar, not its watermark, branding, or exact visual design.
+
+For horizontal 16:9 pages, use the `Horizontal Motion Library` in that reference. Prefer a centered hero that pins to a side before the next visual enters; select the motion by the relationship being explained, not by applying one fade preset to every page.
 
 ## Workflow
 
@@ -65,6 +67,7 @@ Write every page prompt before making API calls. Read `references/visual-story-c
 Keep a shared art direction across all prompts:
 
 - consistent palette, medium, line quality, and recurring character;
+- for this AI tutorial series, use a 3D minimalist C4D-render visual language: blue, white, and neutral grey; clean edges; matte surfaces; subtle neon glow without overexposure; soft diffused lighting; low noise; moderate depth of field; high-definition detail. Do not substitute cartoon illustration, saturated poster art, generic robots, or floating-code decoration;
 - composition matching the delivery aspect ratio, with safe margins reserved for platform UI and subtitles;
 - exact allowed labels listed verbatim;
 - no extra readable text, watermark, page chrome, or fake UI;
@@ -127,7 +130,7 @@ Read `references/quality-gates.md` and complete every P0 check.
 At minimum:
 
 1. Serve the deck locally when relative assets or browser restrictions require it.
-2. Inspect all slides at the delivery aspect ratio after animations settle. For Douyin, use 540x960 and a 375x667 stress check.
+2. Inspect all body slides at the delivery aspect ratio after animations settle. For this series, use 1920x1080 and a 1280x720 stress check. Inspect the independent Douyin cover at 540x960 and 375x667.
 3. Check at least the opening, densest relationship diagram, every example layout type, and closing slide at a second relevant viewport.
 4. Exercise next, previous, direct dot navigation, and reduced-motion behavior.
 5. Fix visible overlap by changing the layout or safe area, not by merely shrinking text until it is unreadable.
@@ -142,7 +145,7 @@ For this Chinese tutorial series, use the calm narration preset in `references/m
 
 1. Prefer the real narration audio as the timing authority. If no recording exists, estimate duration at 180-220 Chinese characters per minute and state the selected rate.
 2. Generate or record narration page by page so one revised page can be replaced without changing accepted pages.
-3. Capture every settled slide at the declared delivery resolution and keep a stable 30 fps output. For Douyin, this is 1080x1920.
+3. Capture every settled slide at the declared delivery resolution and keep a stable 30 fps output. For this series, the body video is 1920x1080; export its 1080x1920 cover separately.
 4. Keep each page completely static by default only when it has one visual point. For a multi-point page, animate each beat with 300-700 ms of `opacity` plus a purposeful motion selected from the short-form motion language, aligned to its narration cue. Use final word timestamps to schedule the cue; page percentages are only a temporary pre-TTS fallback. Do not use instant visibility toggles for content appearing after page start.
 5. Record real HTML beat motion in the browser or capture a sufficiently dense frame sequence that contains intermediate transition frames. Do not concatenate only settled beat screenshots: that produces hard cuts even when the HTML preview animation looks smooth.
 6. Do not apply `zoompan`, drifting crops, or decorative camera motion unless the user explicitly requests it and the result passes motion QA.

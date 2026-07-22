@@ -1,20 +1,20 @@
-# Douyin Vertical Delivery
+# Douyin Cover Delivery
 
-Use this reference for Douyin and this AI explainer series unless the user explicitly requests another platform or format.
+Use this reference for the independent 9:16 Douyin cover in this AI explainer series. The main video remains at its selected delivery ratio, normally 16:9 / 1920x1080.
 
 ## Delivery Contract
 
-- Build the source page at 9:16. Deliver video at 1080x1920, 30 fps, H.264, AAC, and `yuv420p`.
-- Do not design in 16:9 and crop later. The vertical composition, title line breaks, cards, and subtitle position must be intentional from the page map onward.
-- Use a full-canvas 9:16 HTML deck. Keep direct navigation, touch navigation, keyboard navigation, and reduced-motion behavior.
+- Build the cover at 9:16 and export it as `images/00-douyin-cover.png` at 1080x1920.
+- Design the cover directly at 9:16; never crop a 16:9 body page into a cover.
+- Build the body deck at its own selected ratio. Do not add 9:16 safe zones, vertical subtitles, or a silent cover hold to the horizontal body video.
 
 ## Cover First
 
-1. Treat page 1 as a dedicated first-frame cover, not an incidental body frame.
+1. Treat the cover as an independent deliverable, not an incidental body frame.
 2. Generate the visual background without readable text. Use supplied portrait references only as identity references and keep the face unobstructed.
 3. Put the exact series label and topic title in HTML or the editor. Make the topic readable at thumbnail size.
 4. Export `images/00-douyin-cover.png` at exactly 1080x1920. Verify its pixels with `file`, `sips`, or equivalent.
-5. Hold the cover as the first 1.2 seconds of the final MP4. Delay narration audio by the same duration so the cover is silent and usable as a selected first frame.
+5. Do not require the cover to match the first frame of the body MP4 or add it to the video timeline. Only add a vertical opening frame when the user explicitly asks for one.
 
 ## Safe Composition
 
@@ -27,18 +27,10 @@ Use this reference for Douyin and this AI explainer series unless the user expli
 - Use short, deliberate title line breaks. Rewrite copy before shrinking it. Do not let a single Chinese character wrap alone.
 - Make the first slide title visually dominant. Keep explanatory copy, page number, and CTA secondary.
 
-## Motion And Timing
-
-- Read `short-form-motion.md` and use its beat contract. Keep one stable primary card or background while a focal group enters.
-- Resolve all final beat cues from TTS word timestamps. Use temporary offsets only before narration exists.
-- Give every later beat a 320-650 ms purposeful entry. Use `slide`, `pop`, `fold`, `reveal`, `roll`, or `stamp`; do not use continuous drift, bounce, or fade-only sequences.
-- Record actual HTML motion for multi-beat pages. Do not assemble a final video from only settled screenshots.
-
 ## Vertical QA
 
 1. Inspect every slide at 540x960 after animation settles.
 2. Stress-test opening, densest layout, every unique card layout, and closing CTA at 375x667. Fix collisions by changing layout or copy, never by making the key text too small.
 3. Capture pre-entry, midpoint, and settled frames for every distinct beat layout. Confirm the midpoint visibly differs from both endpoints.
-4. Verify the exported cover is 1080x1920 and is the first frame of the MP4.
-5. Inspect burned subtitles above the bottom 18% and away from faces, workflow nodes, or cover typography.
-6. Restore any temporary browser viewport override after QA.
+4. Verify the exported cover is exactly 1080x1920. It is not expected to match the body MP4 first frame.
+5. Restore any temporary browser viewport override after QA.

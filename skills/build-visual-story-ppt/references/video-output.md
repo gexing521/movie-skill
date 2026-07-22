@@ -1,6 +1,6 @@
 # Narration-Timed Video Output
 
-Read `douyin-vertical-delivery.md` before producing a Douyin episode. Its 1080x1920 cover and safe-area requirements override the horizontal defaults below.
+Read `douyin-vertical-delivery.md` before producing the independent Douyin cover. It governs that 1080x1920 image only; the body video keeps its selected delivery ratio.
 
 ## Contents
 
@@ -32,7 +32,7 @@ Default to 200 Chinese characters per minute and a 1-2 second page pause. Count 
 
 ## Frame capture
 
-1. Set the browser viewport to the delivery resolution: 1920x1080 for horizontal work, 1080x1920 for Douyin.
+1. Set the browser viewport to the body delivery resolution: 1920x1080 for this series' horizontal work.
 2. Reload the deck and wait for entrance motion to settle.
 3. Capture every page, including the bottom title rail.
 4. Restore the browser viewport afterward.
@@ -57,14 +57,14 @@ Render a static page frame or a motion-recorded page clip into constant-frame-ra
 
 Use the selected delivery format:
 
-- 1920x1080 for horizontal work or 1080x1920 for Douyin;
+- 1920x1080 for this series' horizontal body video, or another explicitly selected body ratio;
 - 30 fps;
 - H.264 `yuv420p`;
 - AAC at 48 kHz, preserving mono or stereo narration as appropriate;
 - completely static frames during one-point page display, or real captured beat motion during multi-point page display;
 - 0.6-0.8 second restrained transitions.
 
-For a Douyin cover, render the body timeline first, then concatenate the 1.2-second cover video before it. Concatenate an equal-duration silent mono audio segment before the merged narration audio. Do not crossfade the cover into the first body page: the narration must begin only after the full silent cover hold.
+Export a Douyin cover separately as `images/00-douyin-cover.png`. Do not concatenate it into the horizontal body timeline unless the user explicitly requests an in-video vertical intro.
 
 Do not apply slow `zoompan` by default. Tiny fractional crop changes on a 1920x1080 source can round to adjacent pixels and look like camera shake. Keep explanatory movement in the HTML deck and page transitions, not as continuous video drift.
 
