@@ -16,6 +16,18 @@ Use this reference for the independent 9:16 Douyin cover in this AI explainer se
 4. Export `images/00-douyin-cover.png` at exactly 1080x1920. Verify its pixels with `file`, `sips`, or equivalent.
 5. Do not require the cover to match the first frame of the body MP4 or add it to the video timeline. Only add a vertical opening frame when the user explicitly asks for one.
 
+## Default Cover Direction
+
+For future AI-tool covers, use the approved **cinematic capability poster** direction unless the user asks for a different art direction:
+
+- Use a near-black futuristic stage with electric-blue or cyan edge light, deep contrast, and controlled visual depth. Avoid a flat dashboard screenshot as the entire cover.
+- Make the topic name or outcome an oversized, high-contrast title in the upper-middle reading lane. Set exact text in HTML or the editor; never trust generated-image text for the headline.
+- Put 2-4 short capability keywords directly under the title. They must describe real capabilities in the video, not invented performance claims.
+- In the middle stage, layer 1-3 perspective product/workflow panels with a concrete result object or scene relevant to the topic: code for coding tools, a generated report for analysis tools, a real design output for design tools. Let the panels recede to the result instead of stacking generic cards.
+- Use a small number of framed capability icons only when they make the subject scannable. Give them a clear role and do not create a decorative icon grid.
+- Use an implied 3D treatment through perspective, rim light, shadows, and layered planes. Do not copy the reference's product name, interface, vehicle, city, claims, or exact arrangement.
+- Keep the central title and focal result readable at 375x667. Avoid generic robots, fake dashboards, medical symbols, bokeh/orbs, and unreadable decorative code.
+
 ## Safe Composition
 
 - Reserve the top 12% and bottom 18% for Douyin chrome and captions. Keep the focal title, face, and decisive diagram elements in the middle 70%.
